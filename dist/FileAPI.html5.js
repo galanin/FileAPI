@@ -1864,7 +1864,7 @@
 		},
 
 		resize: function (w, h, strategy){
-			if( /min|max/.test(h) ){
+			if( /min|max|height|width/.test(h) ){
 				strategy = h;
 				h = w;
 			}
@@ -2046,6 +2046,12 @@
 						sh		= h;
 					}
 				}
+			}
+			else if( strategy == 'height' ){
+				dw = dh * sf;
+			}
+			else if( strategy == 'width' ){
+				dh = dw / sf;
 			}
 			else if( strategy ){
 				if( !(sw > dw || sh > dh) ){
