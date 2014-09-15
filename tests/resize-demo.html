@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>FileAPI :: Resize Demo</title>
+
+    <style>
+        * { box-sizing: border-box; }
+        th {
+            padding: 6px 20px;
+            text-align: left;
+        }
+        td {
+            padding: 0;
+            margin: 0 100px 100px 0;
+            width: 300px;
+            height: 300px;
+            overflow: visible;
+            position: relative;
+        }
+        i {
+            display: block;
+            position: absolute;
+            border: 1px dashed red;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            z-index: 10;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+
+</head>
+</body>
+
+    <table>
+        <tr>
+            <th>strategy</th>
+            <th>horizontal</th>
+            <th>vertical</th>
+        </tr>
+        <tr>
+            <th valign="top">resize(200, 200)</th>
+            <td id="hor-size"><i/></td>
+            <td id="ver-size"><i/></td>
+        </tr>
+        <tr>
+            <th valign="top">resize(200, 200, 'preview')</th>
+            <td id="hor-pre"><i/></td>
+            <td id="ver-pre"><i/></td>
+        </tr>
+        <tr>
+            <th valign="top">resize(200, 'min')</th>
+            <td id="hor-min"><i/></td>
+            <td id="ver-min"><i/></td>
+        </tr>
+        <tr>
+            <th valign="top">resize(200, 'max')</th>
+            <td id="hor-max"><i/></td>
+            <td id="ver-max"><i/></td>
+        </tr>
+        <tr>
+            <th valign="top">resize(200, 'width')</th>
+            <td id="hor-width"><i/></td>
+            <td id="ver-width"><i/></td>
+        </tr>
+        <tr>
+            <th valign="top">resize(200, 'height')</th>
+            <td id="hor-height"><i/></td>
+            <td id="ver-height"><i/></td>
+        </tr>
+    </table>
+
+
+<script>
+    var FileAPI = {
+        html5: true
+        , debug: !isPhantomJS
+        , staticPath: '../dist/'
+    };
+</script>
+<script src="../dist/FileAPI.js"></script>
+<script type="application/javascript">
+    function render(url, id, w, h, strategy) {
+        var img = document.createElement('img');
+        img.onload = function () {
+            img.onload = null;
+            var f_img = FileAPI.Image(img);
+            f_img.resize(w, h, strategy).get(function (err, image) {
+                if (!err) {
+                    document.getElementById(id).appendChild(image);
+                }
+            });
+        }
+        img.src = url;
+    }
+
+    render('leafs-horizontal.jpg', 'hor-size', 200, 200);
+    render('leafs-vertical.jpg',   'ver-size', 200, 200);
+
+    render('leafs-horizontal.jpg', 'hor-pre', 200, 200, 'preview');
+    render('leafs-vertical.jpg',   'ver-pre', 200, 200, 'preview');
+
+    render('leafs-horizontal.jpg', 'hor-min', 200, 'min');
+    render('leafs-vertical.jpg',   'ver-min', 200, 'min');
+
+    render('leafs-horizontal.jpg', 'hor-max', 200, 'max');
+    render('leafs-vertical.jpg',   'ver-max', 200, 'max');
+
+    render('leafs-horizontal.jpg', 'hor-width', 200, 'width');
+    render('leafs-vertical.jpg',   'ver-width', 200, 'width');
+
+    render('leafs-horizontal.jpg', 'hor-height', 200, 'height');
+    render('leafs-vertical.jpg',   'ver-height', 200, 'height');
+
+</script>
+
+</body>
+</html>
